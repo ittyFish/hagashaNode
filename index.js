@@ -5,7 +5,6 @@ import  express  from "express";
 import { connectToDB } from "./Config/dbConfig.js";
 import productRouter from "./Roures/product.js";
 import { errorHandling } from "./Middlewares/errorHandlineMw.js";
-//import { auth } from "./Middlewares/auth.js";
 import cors from "cors";
 import userRouter from "./Roures/user.js";
 import orderRouter from "./Roures/order.js";
