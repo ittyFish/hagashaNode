@@ -3,22 +3,22 @@ import { userValidatorForLogin,userValidaror,User} from "../Models/users.js";
 import { hash,compare  } from "bcrypt";
 
 export const addUser = async (req,res) =>{
-    let validate = userValidaror(req.body);
-    if(validate.error)
-        return  res.status(400).json
-        ({type:"not valid body",message:validate.error.details[0].message})
-
-    let { userName,password,tz,email}=req.body;
+    
     try{
-        let sameUser = await User.findOne({$or:[{userName:userName},{tz:tz}]})
+      let validate = userValidaror(req.body);
+      if(validate.error)
+          return  res.status(400).json
+        ({type:"not valid body",message:validate.error.details[0].message})
+    let { userName,password,email,role,enterDate}=req.body;
+        let sameUser = await User.findOne({userName:userName})
         if (sameUser)
-          res.status(400).json({type:"same user",message:"user already exist"})
+            return  res.status(400).json({type:"same user",message:"user already exist"})
         let hashedPassword= await hash(password,15);
-        let newUser= new User({userName,password:hashedPassword,email,tz});
-
-        await newUser.save();
-        let token = generateToken(newUser);
-        return res.json({token})
+        let newUser=await User.create({userName,password:hashedPassword,email,role,enterDate});
+        res.json({userName:userName,email:email,role:role,enterDate:enterDate});
+    
+       
+       
     } 
     catch (err){
         res.status(400).json({type:" error",message:err.message})

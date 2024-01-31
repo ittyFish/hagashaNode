@@ -3,21 +3,25 @@ import  express  from "express";
 
 
 import { connectToDB } from "./Config/dbConfig.js";
-import courseRoter from "./Roures/course.js";
+import productRouter from "./Roures/product.js";
 import { errorHandling } from "./Middlewares/errorHandlineMw.js";
-import cors from "cors"
-import userRouter from "./Roures/user.js"
+//import { auth } from "./Middlewares/auth.js";
+import cors from "cors";
+import userRouter from "./Roures/user.js";
+import orderRouter from "./Roures/order.js";
+
 
 config();
 connectToDB();
 
 const app= express();
 app.use(express.json())
-app.use(cors({origin:"http://127.0.0.1:5400",methods:"*"}));
+app.use(cors({origin:'http://localhost:3000',methods:"*"}));
 
 
-app.use("/api/courses",courseRoter)
-app.use("/api/users",userRouter)
+app.use("/api/products",productRouter);
+app.use("/api/orders",orderRouter);
+app.use("/api/users",userRouter);
 
 
 app.use(errorHandling)

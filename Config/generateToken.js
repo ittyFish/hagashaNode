@@ -10,7 +10,7 @@ export const generateToken = (user)=>{
         role:user.role
     }
 
-    const token = jwt.sign(data,jwtSecretKey,{expiresIn:'50s'});
+    const token = jwt.sign(data,jwtSecretKey,{expiresIn:'50m'});
 
     return token;
 }
